@@ -1,0 +1,43 @@
+{
+  "name": "node-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watchAll --verbose",
+    "start": "ts-node-dev --respawn server/index.ts",
+    "nodemon": "nodemon server/index.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/config": "0.0.36",
+    "@types/express": "^4.17.2",
+    "@types/jsonwebtoken": "^8.3.6",
+    "@types/node": "^13.1.4",
+    "@types/pg": "^7.14.1",
+    "@types/supertest": "^2.0.8",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.7.4",
+    "ts-jest": "^24.3.0"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.0.2",
+    "@types/hapi__joi": "^16.0.6",
+    "@types/jest": "^24.9.0",
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jest": "^24.9.0",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.17.0",
+    "pg-promise": "^10.3.2",
+    "winston": "^3.2.1"
+  }
+}
