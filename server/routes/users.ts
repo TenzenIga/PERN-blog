@@ -32,7 +32,7 @@ router.post('/', asyncMiddleware(async (req:Request, res:Response)=>{
         const values = [req.body.username, req.body.email,password];
         const result = await pool.query(`INSERT INTO users( username, email, password, date_created )
                     VALUES($1, $2, $3, NOW()) RETURNING *`, values)
-        res.json(result.rows[0])
+        res.status(200).json(result.rows[0])
 }))
 
 export default router;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --verbose",
+    "test": "jest --watchAll --verbose --runInBand --detectOpenHandles",
     "start": "ts-node-dev --respawn server/index.ts",
     "nodemon": "nodemon server/index.ts",
     "build": "tsc"
@@ -22,9 +22,9 @@
     "@types/supertest": "^2.0.8",
     "nodemon": "^2.0.2",
     "supertest": "^4.0.2",
+    "ts-jest": "^25.3.0",
     "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.7.4",
-    "ts-jest": "^24.3.0"
+    "typescript": "^3.7.4"
   },
   "dependencies": {
     "@hapi/joi": "^17.0.2",
@@ -34,7 +34,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "jest": "^24.9.0",
+    "jest": "^25.2.4",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.17.0",
     "pg-promise": "^10.3.2",

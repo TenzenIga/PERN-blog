@@ -16,11 +16,7 @@ const schema = Joi.object({
     body:Joi.string().required(),
 })
 
-const commentSchema = Joi.object({
-    comment:Joi.string()
-        .min(1)
-        .required()
-})
+
 // get all posts
 router.get('/', asyncMiddleware(async (req:Request, res:Response)=>{
     const ret = await pool.query('SELECt * FROM posts')
@@ -32,7 +28,6 @@ router.get('/', asyncMiddleware(async (req:Request, res:Response)=>{
  */
 router.get('/:id',validateId, asyncMiddleware(async (req:Request, res:Response)=>{
  
-    if(isNaN(parseInt(req.params.id))) return res.status(404).send('Invalid ID');
     const post  = await pool.query('SELECT * FROM posts WHERE pid = $1', [req.params.id])    
     res.json(post)
 }));
@@ -69,17 +64,6 @@ router.delete('/:id',[auth, admin], validateId, asyncMiddleware(async (req:Reque
 }));
 
 
-// Send comment
-router.post('/:id', auth, validateId, asyncMiddleware(
-    async (req: Request, res:Response) =>{
-        const {error} = commentSchema.validate(req.body);
-        if(error) return res.status(400).send(error.details[0].message);
-        const values = [req.body.comment, req.user.uid, req.params.id];
-        const comment = await pool.query(`INSERT INTO comments( comment, user_id, post_id, date_created )
-        VALUES($1, $2, $3, NOW()) RETURNING *`, values)  
-        res.json(comment); 
-    }
-))
 
 
 export default router;
