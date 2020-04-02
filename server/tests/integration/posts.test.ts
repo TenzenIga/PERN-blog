@@ -31,6 +31,9 @@ describe('/posts', ()=>{
         await pool.query('DELETE FROM users')
         }
     )
+     afterAll(()=>{
+        pool.end()
+    })
     describe('GET /', ()=>{
         it('should return all posts', async ()=>{
             await pool.query(`INSERT INTO posts

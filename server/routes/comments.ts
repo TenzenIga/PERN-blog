@@ -20,13 +20,13 @@ const commentSchema = Joi.object({
 
 /**
  * Get comments from post 
- * @id  post id
+ * @id post id
  */
 
  router.get('/:id', validateId, asyncMiddleware(
     async (req:Request, res: Response) =>{
         const ret = await pool.query('SELECt * FROM comments WHERE post_id = $1', [req.params.id])
-        res.json(ret )
+        res.status(200).json(ret )
     }
  )) 
 
@@ -51,16 +51,24 @@ router.post('/:id', auth, validateId, asyncMiddleware(
  */
 router.put('/:id', auth, validateId, asyncMiddleware(
     async (req:Request, res:Response)=>{
+        const id = parseInt(req.params.id);
         const {error} = commentSchema.validate(req.body);
         if(error) return res.status(400).send(error.details[0].message);
-        const values = [req.body.comment, req.user.uid, req.params.id];
-        const comment = await pool.query('UPDATE comments SET comment = $1 WHERE post_id = $2', [values]) 
+        // check if comment belongs to user
+        const isCommentBelongsToUser = await pool.query('SELECT EXISTS(SELECT 1 FROM comments WHERE cid = $1 AND user_id = $2)', [id, req.user.uid ])
+        
+        if(!isCommentBelongsToUser.rows[0].exists){
+            return res.status(403).send("В доступе отказано")
+        }
+        const values = [req.body.comment, id];
+        await pool.query('UPDATE comments SET comment = $1 WHERE cid = $2', values) 
         res.status(200).json({msg:'Comment edited'});
     }
 ))
 
  /**
   * Delete comment 
+  * @id comment id
   */
 router.delete('/:id', auth, validateId, asyncMiddleware(
     async (req:Request, res:Response)=>{
